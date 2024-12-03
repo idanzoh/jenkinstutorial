@@ -14,7 +14,7 @@ resource "tls_private_key" "ec2_private_key" {
   rsa_bits  = 4096
 
   provisioner "local-exec" {
-        command = "echo '${tls_private_key.ec2_private_key.private_key_pem}' > ~/Desktop/${var.key_name}.pem"            
+        command = "echo '${tls_private_key.ec2_private_key.private_key_pem}' > /home/darky/Desktop/${var.key_name}.pem"            
     }
 }
 
@@ -25,7 +25,7 @@ resource "null_resource" "key-perm" {
     ]
 
     provisioner "local-exec" {
-        command = "chmod 400 ~/Desktop/${var.key_name}.pem"
+        command = "chmod 400 /home/dark/Desktop/${var.key_name}.pem"
     }
 }
 
@@ -86,6 +86,6 @@ resource "aws_instance" "myWebOS" {
     }
 
     provisioner "local-exec" {
-      command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ec2-user --private-key ~/Desktop/${var.key_name}.pem -i '${aws_instance.myWebOS.public_ip},' master.yml"
+      command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ec2-user --private-key /home/darky/Desktop/${var.key_name}.pem -i '${aws_instance.myWebOS.public_ip},' master.yml"
   }
 }
